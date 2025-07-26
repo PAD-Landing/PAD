@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PAD – Projeto de Inovação com IA</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+      background-color: #111;
+      color: #f4f4f4;
+      text-align: center;
+    }
+    header {
+      padding: 50px 20px;
+      background-color: #1b1b1b;
+    }
+    header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    header p {
+      font-size: 1.2em;
+      color: #ccc;
+    }
+    form {
+      margin-top: 30px;
+    }
+    input[type="email"] {
+      padding: 10px;
+      font-size: 1em;
+      width: 250px;
+      border-radius: 5px;
+      border: none;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      font-size: 1em;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 0.9em;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>PAD – Projeto de Ação Digital</h1>
+    <p>O primeiro projeto criado por um humano e uma IA para inspirar uma geração a começar do zero.</p>
+    <form>
+      <input type="email" placeholder="Insere teu email para acompanhar o projeto" required />
+      <br />
+      <button type="submit">Inscrever-me</button>
+    </form>
+    <br />
+    <button onclick="window.open('https://yoroi-wallet.com/#/send?address=addr1q8fvxmajxf0arknjdfqu4uxpj2t3f4k6cv73z58yse3anxnszn8vksym6ajvsxaxtef6jg92rwz0uu08p4gd387py3cs0zggkp','_blank')">Quero apoiar com ADA</button>
+  </header>
+  <footer>
+    Criado em coautoria entre um Humano e a IA ChatGPT · © PAD 2025
+  </footer>
+</body>
+</html>
+
