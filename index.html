@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PAD — Liberdade Digital</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', 'Segoe UI', 'Roboto', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
+      color: #e6f1ff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 10px 0 10px;
+      text-align: center;
+      overflow-x: hidden;
+      animation: bgMove 12s linear infinite alternate;
+      transition: background 0.5s;
+    }
+    body.light-mode {
+      background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+      color: #1a1a1a;
+    }
+    @keyframes bgMove {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+    h1 {
+      font-size: 3em;
+      margin-bottom: 24px;
+      color: #00ffe7;
+      letter-spacing: 2px;
+      text-shadow: 0 0 32px #00ffe7, 0 0 64px #a259ff, 0 0 8px #fff;
+      background: linear-gradient(90deg, #00ffe7, #58a6ff, #a259ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 16px #00ffe7cc);
+      animation: glowTitle 2.5s infinite alternate;
+    }
+    @keyframes glowTitle {
+      0% { filter: drop-shadow(0 0 8px #00ffe7cc); }
+      100% { filter: drop-shadow(0 0 32px #a259ffcc); }
+    }
+    p {
+      font-size: 1.3em;
+      max-width: 700px;
+      margin-bottom: 36px;
+      line-height: 1.7;
+      color: #b3cfff;
+      text-shadow: 0 2px 8px #0d1117cc;
+      background: rgba(255,255,255,0.02);
+      border-radius: 12px;
+      padding: 12px 18px;
+      backdrop-filter: blur(2px);
+      box-shadow: 0 4px 32px 0 #00ffe733;
+    }
+    form {
+      background: rgba(20, 30, 48, 0.7);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px 0 #00ffe722;
+      padding: 28px 24px 18px 24px;
+      margin-bottom: 32px;
+      display: inline-block;
+      backdrop-filter: blur(6px);
+      border: 1.5px solid #00ffe7cc;
+      transition: box-shadow 0.3s;
+    }
+    form:focus-within {
+      box-shadow: 0 0 0 4px #00ffe799;
+    }
+    input[type="email"] {
+      padding: 14px;
+      width: 320px;
+      border-radius: 8px;
+      border: 1.5px solid #58a6ff;
+      background: rgba(255,255,255,0.08);
+      color: #e6f1ff;
+      font-size: 1.1em;
+      margin-bottom: 18px;
+      outline: none;
+      transition: border 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 12px 0 #58a6ff22;
+    }
+    input[type="email"]:focus {
+      border: 1.5px solid #00ffe7;
+      box-shadow: 0 0 0 2px #00ffe799;
+    }
+    button {
+      padding: 14px 32px;
+      font-size: 1.1em;
+      background: linear-gradient(90deg, #00ffe7, #58a6ff, #a259ff);
+      color: #0d1117;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      box-shadow: 0 2px 16px 0 #00ffe733, 0 0 16px #00ffe7cc;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+      filter: drop-shadow(0 0 8px #00ffe7cc);
+      position: relative;
+      overflow: hidden;
+    }
+    button:active {
+      transform: scale(0.97) rotate(-1deg);
+    }
+    button:hover {
+      background: linear-gradient(90deg, #a259ff, #58a6ff, #00ffe7);
+      color: #fff;
+      box-shadow: 0 0 32px #a259ff99, 0 0 16px #00ffe7cc;
+      filter: drop-shadow(0 0 16px #a259ffcc);
+    }
+    .wallet {
+      margin-top: 36px;
+      background: rgba(20, 30, 48, 0.55);
+      padding: 28px 24px;
+      border-radius: 24px;
+      width: 100%;
+      max-width: 650px;
+      word-break: break-word;
+      box-shadow: 0 8px 32px 0 #a259ff33, 0 0 32px #00ffe799;
+      border: 2.5px solid #a259ffcc;
+      backdrop-filter: blur(16px) saturate(180%);
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow 0.3s, border 0.3s;
+    }
+    .wallet:hover {
+      box-shadow: 0 0 64px #00ffe7cc, 0 0 32px #a259ff99;
+      border: 2.5px solid #00ffe7cc;
+    }
+    /* Cards de visão */
+    .vision-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 32px;
+      margin: 48px 0 32px 0;
+      z-index: 2;
+    }
+    .vision-card {
+      background: rgba(0,255,231,0.10);
+      border: 1.5px solid #58a6ffcc;
+      border-radius: 18px;
+      box-shadow: 0 4px 32px 0 #00ffe733, 0 0 16px #a259ff44;
+      padding: 32px 28px 24px 28px;
+      min-width: 220px;
+      max-width: 320px;
+      flex: 1 1 220px;
+      color: #e6f1ff;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      perspective: 600px;
+      cursor: pointer;
+    }
+    .vision-card:hover {
+      transform: scale(1.04) rotateY(-6deg) skewY(1deg);
+      box-shadow: 0 0 48px #00ffe7cc, 0 0 32px #a259ff99;
+      z-index: 3;
+    }
+    .vision-card svg {
+      display: block;
+      margin-bottom: 18px;
+      filter: drop-shadow(0 0 8px #00ffe7cc);
+      animation: iconPulse 2s infinite alternate;
+    }
+    @keyframes iconPulse {
+      0% { filter: drop-shadow(0 0 8px #00ffe7cc); }
+      100% { filter: drop-shadow(0 0 24px #a259ffcc); }
+    }
+    /* Footer */
+    footer {
+      width: 100vw;
+      background: rgba(20,30,48,0.7);
+      color: #00ffe7;
+      text-align: center;
+      padding: 18px 0 10px 0;
+      margin-top: 48px;
+      font-size: 1em;
+      border-top: 1.5px solid #a259ffcc;
+      box-shadow: 0 -2px 24px #00ffe733;
+      letter-spacing: 1px;
+      z-index: 10;
+      position: relative;
+    }
+    .social-links {
+      margin-top: 8px;
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+    }
+    .social-links a {
+      color: #a259ff;
+      font-size: 1.5em;
+      transition: color 0.2s, filter 0.2s;
+      filter: drop-shadow(0 0 8px #a259ffcc);
+    }
+    .social-links a:hover {
+      color: #00ffe7;
+      filter: drop-shadow(0 0 16px #00ffe7cc);
+    }
+    /* Loader animado */
+    .loader {
+      display: none;
+      margin: 0 auto 18px auto;
+      border: 4px solid #a259ff44;
+      border-top: 4px solid #00ffe7;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    /* Partículas de fundo */
+    #particles-js {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .wallet:before {
+      content: '';
+      position: absolute;
+      top: -40px; left: -40px;
+      width: 120%; height: 120%;
+      background: radial-gradient(circle, #00ffe7cc 0%, transparent 70%);
+      opacity: 0.08;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .wallet code {
+      font-size: 1.1em;
+      background: rgba(0,255,231,0.08);
+      padding: 8px 12px;
+      border-radius: 6px;
+      color: #00ffe7;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px 0 #00ffe722;
+      z-index: 1;
+      position: relative;
+      user-select: all;
+      transition: background 0.2s;
+    }
+    .wallet code:focus {
+      outline: 2px solid #a259ff;
+      background: rgba(162,89,255,0.18);
+    }
+    .qr {
+      margin-top: 18px;
+      z-index: 1;
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+    .qr img {
+      border-radius: 12px;
+      box-shadow: 0 2px 16px 0 #58a6ff44;
+      border: 2px solid #00ffe7;
+      background: #fff;
+      width: 200px;
+      height: 200px;
+      transition: transform 0.2s;
+    }
+    .qr img:hover {
+      transform: scale(1.05) rotate(-2deg);
+      box-shadow: 0 0 32px #a259ff99;
+    }
+    .copy-confirmation {
+      color: #00ffe7;
+      margin-top: 14px;
+      display: none;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-shadow: 0 0 8px #00ffe7cc;
+      animation: fadeInOut 3s linear;
+    }
+    @keyframes fadeInOut {
+      0% { opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @media (max-width: 700px) {
+      h1 { font-size: 2em; }
+      .wallet, form, p { max-width: 98vw; }
+      input[type="email"] { width: 90vw; min-width: 0; }
+      .qr img { width: 140px; height: 140px; }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+</head>
+  <div id="particles-js"></div>
+  <!-- Vídeo/loop animado -->
+  <div style="margin: 32px 0 0 0; z-index:2;">
+    <video autoplay loop muted playsinline style="max-width:420px; border-radius:18px; box-shadow:0 0 32px #00ffe799; border:2px solid #a259ffcc; background:#000;">
+      <source src="https://www.w3schools.com/howto/rain.mp4" type="video/mp4">
+      <!-- Substitua pelo seu vídeo futurista -->
+    </video>
+  </div>
+  <!-- Secção de visão/cards -->
+  <div class="vision-section">
+    <div class="vision-card">
+      <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" fill="#161b22" stroke="#00ffe7" stroke-width="3"/><path d="M20 12v8l6 4" stroke="#a259ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      <h3>Tempo Real</h3>
+      <p>Identidade e transações validadas instantaneamente, com IA e blockchain.</p>
+    </div>
+    <div class="vision-card">
+      <svg width="40" height="40" viewBox="0 0 40 40"><rect x="8" y="8" width="24" height="24" rx="8" fill="#161b22" stroke="#58a6ff" stroke-width="3"/><path d="M16 20l4 4 8-8" stroke="#00ffe7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      <h3>Autonomia</h3>
+      <p>Tu controlas os teus dados. Sem intermediários, sem censura.</p>
+    </div>
+    <div class="vision-card">
+      <svg width="40" height="40" viewBox="0 0 40 40"><polygon points="20,6 36,34 4,34" fill="#161b22" stroke="#a259ff" stroke-width="3"/><circle cx="20" cy="24" r="4" fill="#00ffe7"/></svg>
+      <h3>Segurança</h3>
+      <p>Proteção máxima com criptografia de última geração e transparência total.</p>
+    </div>
+  </div>
+<body>
+
+  <h1>
+    <span style="font-weight:700;">PAD</span>: Liberdade Digital <span style="font-weight:400;">do Futuro</span>
+    <span style="display:block;font-size:0.5em;font-weight:400;letter-spacing:1px;margin-top:8px;color:#a259ff;">Originalidade & Tecnologia de Ponta</span>
+  </h1>
+  <p>
+    Bem-vindo ao futuro da identidade descentralizada: IA + Blockchain, sem intermediários, 100% teu.<br>
+    Junta-te ao movimento Web3 e descobre uma nova era de liberdade digital.<br>
+    <span style="color:#00ffe7;font-weight:600;">Inova. Protege. Liberta.</span>
+  </p>
+
+  <!-- Formulário funcional via Formspree -->
+  <form id="subscribeForm" action="https://formspree.io/f/xyyrljjo" method="POST" aria-label="Subscrever para novidades">
+    <div class="loader" id="formLoader"></div>
+    <label for="emailInput" style="display:none;">Email</label>
+    <input id="emailInput" type="email" name="email" placeholder="O teu email para novidades" required autocomplete="email" />
+    <br />
+    <button type="submit" aria-label="Subscrever para novidades">Subscrever</button>
+  </form>
+  <!-- Botão modo claro/escuro -->
+  <button id="toggleMode" style="position:fixed;top:18px;right:18px;z-index:20;background:rgba(0,0,0,0.25);color:#00ffe7;padding:8px 16px;font-size:1.1em;border-radius:8px;border:1.5px solid #00ffe7;box-shadow:0 0 8px #00ffe7cc;cursor:pointer;transition:background 0.2s;">🌙</button>
+  <footer>
+    PAD — Liberdade Digital &copy; 2025
+    <div class="social-links">
+      <a href="https://twitter.com/" target="_blank" aria-label="Twitter"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M22 5.92a8.38 8.38 0 0 1-2.36.65A4.13 4.13 0 0 0 21.4 4.1a8.27 8.27 0 0 1-2.61 1A4.13 4.13 0 0 0 11.5 9.03a11.7 11.7 0 0 1-8.5-4.3a4.13 4.13 0 0 0 1.28 5.5A4.07 4.07 0 0 1 2 9.15v.05a4.13 4.13 0 0 0 3.31 4.05a4.09 4.09 0 0 1-1.85.07a4.13 4.13 0 0 0 3.85 2.86A8.29 8.29 0 0 1 2 19.54a11.7 11.7 0 0 0 6.29 1.84c7.55 0 11.68-6.26 11.68-11.68c0-.18 0-.36-.01-.54A8.18 8.18 0 0 0 22 5.92z" fill="#00ffe7"/></svg></a>
+      <a href="https://github.com/" target="_blank" aria-label="GitHub"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.58 2 12.26c0 4.48 2.87 8.28 6.84 9.63c.5.09.68-.22.68-.48c0-.24-.01-.87-.01-1.7c-2.78.62-3.37-1.36-3.37-1.36c-.45-1.18-1.1-1.5-1.1-1.5c-.9-.64.07-.63.07-.63c1 .07 1.53 1.05 1.53 1.05c.89 1.56 2.34 1.11 2.91.85c.09-.66.35-1.11.63-1.37c-2.22-.26-4.56-1.14-4.56-5.07c0-1.12.39-2.03 1.03-2.75c-.1-.26-.45-1.3.1-2.7c0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05c.55 1.4.2 2.44.1 2.7c.64.72 1.03 1.63 1.03 2.75c0 3.94-2.34 4.81-4.57 5.07c.36.32.68.94.68 1.9c0 1.37-.01 2.47-.01 2.81c0 .27.18.58.69.48C19.13 20.54 22 16.74 22 12.26C22 6.58 17.52 2 12 2z" fill="#a259ff"/></svg></a>
+      <a href="mailto:pad@liberdadedigital.com" aria-label="Email"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 2v.01L12 13L4 6.01V6h16zM4 20V8.99l8 6.99l8-6.99V20H4z" fill="#58a6ff"/></svg></a>
+    </div>
+  </footer>
+
+  <div class="wallet">
+    <code id="walletAddress" tabindex="0" aria-label="Endereço da carteira ADA">addr1q8fvxmajxf0arknjdfqu4uxpj2t3f4k6cv73z58yse3anxnszn8vksym6ajvsxaxtef6jg92rwz0uu08p4gd387py3cs0zggkp</code>
+    <br/>
+    <button type="button" onclick="copyWallet()" aria-label="Copiar endereço da carteira">
+      <svg width="22" height="22" viewBox="0 0 22 22" style="vertical-align:middle;margin-right:8px;fill:#00ffe7;filter:drop-shadow(0 0 6px #00ffe7cc);"><rect x="3" y="3" width="16" height="16" rx="4" fill="#161b22" stroke="#00ffe7" stroke-width="2"/><rect x="7" y="7" width="8" height="8" rx="2" fill="#a259ff"/></svg>
+      Quero Apoiar
+    </button>
+    <div id="copyConfirmation" class="copy-confirmation" role="status" aria-live="polite">Endereço copiado para a área de transferência ✅</div>
+    <div class="qr">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?data=addr1q8fvxmajxf0arknjdfqu4uxpj2t3f4k6cv73z58yse3anxnszn8vksym6ajvsxaxtef6jg92rwz0uu08p4gd387py3cs0zggkp&size=200x200" alt="QR Code da carteira ADA">
+    </div>
+  </div>
+  </div>
+  <script>
+    // Partículas de fundo
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 60, density: { enable: true, value_area: 800 } },
+        color: { value: ["#00ffe7", "#a259ff", "#58a6ff"] },
+        shape: { type: "circle" },
+        opacity: { value: 0.25, random: true },
+        size: { value: 3, random: true },
+        line_linked: { enable: true, distance: 120, color: "#00ffe7", opacity: 0.12, width: 1 },
+        move: { enable: true, speed: 1.2, direction: "none", random: false, straight: false, out_mode: "out" }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: true, mode: "repulse" },
+          onclick: { enable: true, mode: "push" },
+          resize: true
+        },
+        modes: {
+          repulse: { distance: 80, duration: 0.4 },
+          push: { particles_nb: 4 }
+        }
+      },
+      retina_detect: true
+    });
+    // Modo claro/escuro
+    const toggleBtn = document.getElementById('toggleMode');
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('light-mode');
+      if(document.body.classList.contains('light-mode')) {
+        toggleBtn.textContent = '☀️';
+      } else {
+        toggleBtn.textContent = '🌙';
+      }
+    });
+    // Loader animado no submit
+    const form = document.getElementById('subscribeForm');
+    const loader = document.getElementById('formLoader');
+    form.addEventListener('submit', function(e) {
+      loader.style.display = 'block';
+      setTimeout(() => loader.style.display = 'none', 2500); // Simula envio
+    });
+    function copyWallet() {
+      const address = document.getElementById("walletAddress").innerText;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(address).then(() => {
+          showCopyConfirmation();
+        }).catch(() => {
+          fallbackCopyTextToClipboard(address);
+        });
+      } else {
+        fallbackCopyTextToClipboard(address);
+      }
+    }
+
+    function fallbackCopyTextToClipboard(text) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showCopyConfirmation();
+      } catch (err) {
+        alert('Não foi possível copiar o endereço.');
+      }
+      document.body.removeChild(textArea);
+    }
+
+    function showCopyConfirmation() {
+      const confirmation = document.getElementById("copyConfirmation");
+      confirmation.style.display = "block";
+      setTimeout(() => {
+        confirmation.style.display = "none";
+      }, 3000);
+    }
+  </script>
+  </script>
+
+</body>
+</html>
