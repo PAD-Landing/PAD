@@ -302,12 +302,9 @@
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 </head>
   <div id="particles-js"></div>
-  <!-- Vídeo/loop animado -->
-  <div style="margin: 32px 0 0 0; z-index:2;">
-    <video autoplay loop muted playsinline style="max-width:420px; border-radius:18px; box-shadow:0 0 32px #00ffe799; border:2px solid #a259ffcc; background:#000;">
-      <source src="https://www.w3schools.com/howto/rain.mp4" type="video/mp4">
-      <!-- Substitua pelo seu vídeo futurista -->
-    </video>
+  <!-- Canvas animado: Labirinto com PAD a percorrer o caminho -->
+  <div style="margin: 32px 0 0 0; z-index:2; display:flex; justify-content:center;">
+    <canvas id="mazeCanvas" width="420" height="320" style="border-radius:18px; box-shadow:0 0 32px #00ffe799; border:2px solid #a259ffcc; background:#0d1117;"></canvas>
   </div>
   <!-- Secção de visão/cards -->
   <div class="vision-section">
@@ -372,6 +369,118 @@
   </div>
   </div>
   <script>
+    // --- Maze Animation ---
+    const canvas = document.getElementById('mazeCanvas');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      const cols = 14, rows = 10, cellSize = 30;
+      let maze = [], visited = [], stack = [], path = [], pathIndex = 0;
+      // Maze generation (DFS)
+      function Cell(x, y) {
+        this.x = x; this.y = y;
+        this.walls = [true, true, true, true]; // top, right, bottom, left
+        this.visited = false;
+      }
+      function index(x, y) {
+        if (x < 0 || y < 0 || x >= cols || y >= rows) return -1;
+        return x + y * cols;
+      }
+      for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) maze.push(new Cell(x, y));
+      function removeWalls(a, b) {
+        let dx = a.x - b.x, dy = a.y - b.y;
+        if (dx === 1) { a.walls[3] = false; b.walls[1] = false; }
+        if (dx === -1) { a.walls[1] = false; b.walls[3] = false; }
+        if (dy === 1) { a.walls[0] = false; b.walls[2] = false; }
+        if (dy === -1) { a.walls[2] = false; b.walls[0] = false; }
+      }
+      let current = maze[0];
+      stack.push(current);
+      while (stack.length) {
+        current.visited = true;
+        let neighbors = [];
+        [[0,-1],[1,0],[0,1],[-1,0]].forEach(([dx,dy],i)=>{
+          let nx=current.x+dx,ny=current.y+dy,ni=index(nx,ny);
+          if(ni>=0&&!maze[ni].visited) neighbors.push(maze[ni]);
+        });
+        if (neighbors.length) {
+          let next = neighbors[Math.floor(Math.random()*neighbors.length)];
+          stack.push(current);
+          removeWalls(current, next);
+          current = next;
+        } else {
+          current = stack.pop();
+        }
+      }
+      // Find path (A*) from (0,0) to (cols-1,rows-1)
+      function findPath() {
+        let open = [{x:0,y:0,path:[]}], closed = Array(cols*rows).fill(false);
+        while (open.length) {
+          let {x,y,path:p} = open.shift();
+          let idx = index(x,y);
+          if (closed[idx]) continue;
+          closed[idx]=true;
+          let newPath = [...p, {x,y}];
+          if (x===cols-1 && y===rows-1) return newPath;
+          let cell = maze[idx];
+          [[0,-1,0],[1,0,1],[0,1,2],[-1,0,3]].forEach(([dx,dy,wall])=>{
+            let nx=x+dx,ny=y+dy,ni=index(nx,ny);
+            if(ni>=0 && !cell.walls[wall]) open.push({x:nx,y:ny,path:newPath});
+          });
+        }
+        return [];
+      }
+      path = findPath();
+      // Animation
+      function drawMaze() {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        // Draw maze
+        for (let cell of maze) {
+          let x = cell.x*cellSize+20, y = cell.y*cellSize+20;
+          ctx.strokeStyle = '#58a6ff';
+          ctx.lineWidth = 2;
+          if (cell.walls[0]) { ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x+cellSize, y); ctx.stroke(); }
+          if (cell.walls[1]) { ctx.beginPath(); ctx.moveTo(x+cellSize, y); ctx.lineTo(x+cellSize, y+cellSize); ctx.stroke(); }
+          if (cell.walls[2]) { ctx.beginPath(); ctx.moveTo(x+cellSize, y+cellSize); ctx.lineTo(x, y+cellSize); ctx.stroke(); }
+          if (cell.walls[3]) { ctx.beginPath(); ctx.moveTo(x, y+cellSize); ctx.lineTo(x, y); ctx.stroke(); }
+        }
+        // Draw path
+        ctx.save();
+        ctx.globalAlpha = 0.18;
+        ctx.strokeStyle = '#00ffe7';
+        ctx.lineWidth = 8;
+        ctx.beginPath();
+        for (let i=0; i<path.length; i++) {
+          let px = path[i].x*cellSize+cellSize/2+20, py = path[i].y*cellSize+cellSize/2+20;
+          if (i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+        }
+        ctx.stroke();
+        ctx.restore();
+        // Draw PAD (moving dot)
+        let prog = pathIndex;
+        if (prog>=path.length) prog=path.length-1;
+        let px = path[prog].x*cellSize+cellSize/2+20, py = path[prog].y*cellSize+cellSize/2+20;
+        ctx.save();
+        ctx.shadowColor = '#00ffe7';
+        ctx.shadowBlur = 18;
+        ctx.beginPath();
+        ctx.arc(px, py, 12, 0, 2*Math.PI);
+        ctx.fillStyle = '#00ffe7';
+        ctx.fill();
+        ctx.font = 'bold 13px Inter, Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#161b22';
+        ctx.fillText('PAD', px, py);
+        ctx.restore();
+      }
+      function animate() {
+        drawMaze();
+        pathIndex += 0.04;
+        if (pathIndex > path.length-1) pathIndex = 0;
+        requestAnimationFrame(animate);
+      }
+      animate();
+    }
     // Partículas de fundo
     particlesJS('particles-js', {
       particles: {
